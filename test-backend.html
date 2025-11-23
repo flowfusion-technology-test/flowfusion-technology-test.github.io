@@ -1,0 +1,350 @@
+---
+layout: default
+title: FLOWFUSION TECHNOLOGY – Back-End Code Challenge
+description: Leading Technology Solutions for Modern Businesses
+---
+
+<div class="markdown-body">
+
+<p align="center">
+  <img src="./flowfusiontech_cover.jpeg" alt="FlowFusion Logo" style="max-width: 100%; height: auto;" />
+</p>
+
+<h1>FLOWFUSION TECHNOLOGY – Back-End Code Challenge</h1>
+
+<hr />
+
+<p>
+  This page describes the back-end coding assignment for candidates applying as
+  <strong>Back-End Engineer</strong> or <strong>Full-Stack Engineer</strong> at
+  <strong>FlowFusion Technology</strong>.
+</p>
+
+<p>
+  Please read all requirements carefully and implement the assignment as if it were a real production service.
+</p>
+
+<blockquote>
+  <strong>Goal:</strong>
+  Design and implement a small authentication service using Go that demonstrates clean architecture,
+  secure JWT handling, and good engineering practices.
+</blockquote>
+
+<hr />
+
+<h2>1. Problem Overview</h2>
+
+<p>
+  Build a back-end service that provides <strong>Authentication with JWT tokens</strong> using:
+</p>
+
+<ul>
+  <li><strong>Language:</strong> Go (Golang)</li>
+  <li><strong>Framework:</strong> Fiber (Go Fiber)</li>
+  <li><strong>Database:</strong> PostgreSQL using <strong>GORM</strong></li>
+  <li><strong>Bonus Option:</strong> Redis (optional) — may be used for token/session storage, but not required</li>
+  <li>
+    <strong>Architecture style:</strong>
+    <strong>Clean Architecture</strong>
+    (layers clearly separated: domain, use case / service, interface / transport, infrastructure, etc.)
+  </li>
+  <li><strong>Authentication scheme:</strong> Access Token + Refresh Token</li>
+</ul>
+
+<p>
+  The service should expose a small set of APIs for user registration, login, token refresh,
+  and secure access to a protected resource.
+</p>
+
+<p>
+  The back-end service must use the <strong>Fiber</strong> framework exclusively.  
+  All routing and HTTP handling must be implemented using Fiber while maintaining
+  adherence to Clean Architecture principles.
+</p>
+
+<hr />
+
+<h2>2. Functional Requirements</h2>
+
+<p>
+  Your service should support at least the following endpoints (you may adjust URLs and payloads
+  as long as the behavior is equivalent and clearly documented in your README):
+</p>
+
+<h3>2.1 Authentication &amp; User Management</h3>
+
+<ol>
+  <li>
+    <p><strong>Register</strong><br />
+      <code>POST /auth/register</code><br />
+      Create a new user with fields such as: <code>email</code>, <code>password</code>,
+      and optional profile fields.<br />
+      Passwords <strong>must be hashed</strong> (never store plain text passwords).
+    </p>
+  </li>
+
+  <li>
+    <p><strong>Login</strong><br />
+      <code>POST /auth/login</code><br />
+      Accepts <code>email</code> and <code>password</code>.<br />
+      On success, returns:
+    </p>
+    <ul>
+      <li><strong>access_token</strong> (short-lived JWT)</li>
+      <li><strong>refresh_token</strong> (longer-lived JWT or opaque token)</li>
+    </ul>
+    <p>
+      On failure, return an appropriate error (for example: invalid credentials).
+    </p>
+  </li>
+
+  <li>
+    <p><strong>Refresh Token</strong><br />
+      <code>POST /auth/refresh</code><br />
+      Accepts a valid <code>refresh_token</code>.<br />
+      Returns a new pair of <strong>access_token</strong> (and optionally a new
+      <strong>refresh_token</strong>, depending on your design).
+    </p>
+  </li>
+
+  <li>
+    <p><strong>Logout</strong><br />
+      <code>POST /auth/logout</code><br />
+      Invalidates the current user session (for example, by revoking tokens or marking them
+      as unusable in Redis).
+    </p>
+  </li>
+</ol>
+
+<h3>2.2 Protected Resource</h3>
+
+<ol start="5">
+  <li>
+    <p><strong>Get Current User Profile</strong><br />
+      <code>GET /me</code><br />
+      Requires a valid <strong>access_token</strong> (for example, via
+      <code>Authorization: Bearer &lt;token&gt;</code> header).<br />
+      Returns basic user information from the database.
+    </p>
+  </li>
+</ol>
+
+<p>
+  You may add more endpoints if you think they improve the design or demonstrate your knowledge,
+  but keep the scope focused on authentication.
+</p>
+
+<hr />
+
+<h2>3. Technical Requirements</h2>
+
+<p>Your implementation <strong>must</strong> satisfy the following:</p>
+
+<h3>3.1 Clean Architecture</h3>
+
+<p>Organize the project so that:</p>
+
+<ul>
+  <li>
+    <strong>Domain / Entities:</strong>
+    Core business objects and interfaces that do not depend on any external framework.
+  </li>
+  <li>
+    <strong>Use Cases / Services:</strong>
+    Application logic (for example, authentication, token generation, validation) that depends
+    only on domain interfaces.
+  </li>
+  <li>
+    <strong>Interfaces / Transport:</strong>
+    HTTP handlers, routing, and request/response DTOs.
+  </li>
+  <li>
+    <strong>Infrastructure / Adapters:</strong>
+    Concrete implementations for PostgreSQL (via GORM), Redis clients, JWT utilities,
+    configuration, logging, etc.
+  </li>
+</ul>
+
+<p>
+  Avoid leaking framework-specific types into the domain layer as much as possible.
+</p>
+
+<h3>3.2 PostgreSQL with GORM</h3>
+
+<ul>
+  <li>Use <strong>PostgreSQL</strong> as the primary database.</li>
+  <li>Use <strong>GORM</strong> for ORM / database access.</li>
+  <li>Create proper models for <code>User</code> and any additional entities you need.</li>
+  <li>Apply basic constraints (for example: unique email, non-null fields) and migrations.</li>
+</ul>
+
+<h3>3.3 Bonus: Redis for In-Memory Auth (Optional)</h3>
+<p>
+  Implementing Redis is optional. You may include Redis to enhance authentication features such as:
+</p>
+<ul>
+  <li>Storing active refresh tokens or sessions</li>
+  <li>Blacklisting or revoking tokens on logout</li>
+  <li>Managing token versioning or expiration</li>
+</ul>
+<p>
+  If you choose to use Redis, please explain its role clearly in your <code>README.md</code>. This is a bonus and not required.
+</p>
+
+<h3>3.4 JWT Access &amp; Refresh Tokens</h3>
+
+<ul>
+  <li>Use <strong>JWT</strong> for <strong>access tokens</strong>.</li>
+  <li>Access tokens should be short-lived.</li>
+  <li>
+    Refresh tokens should be longer-lived, and your service must provide a mechanism
+    to rotate or validate them.
+  </li>
+  <li>
+    Protect at least one endpoint (for example: <code>/me</code>) with access token validation.
+  </li>
+</ul>
+
+<p>
+  Keep secrets (for example, JWT signing key, database credentials) in environment variables
+  or configuration files instead of hard-coding them.
+</p>
+
+<hr />
+
+<h2>4. Non-Functional Requirements</h2>
+
+<p>We will evaluate your solution based on:</p>
+
+<ul>
+  <li>
+    <strong>Code readability</strong> – clear structure, consistent naming,
+    and easy-to-follow logic.
+  </li>
+  <li>
+    <strong>Simplicity</strong> – no over-engineering; straightforward and maintainable code.
+  </li>
+  <li>
+    <strong>Defensiveness</strong> – input validation, error handling,
+    and resilience for common edge cases.
+  </li>
+  <li>
+    <strong>Performance awareness</strong> – reasonable use of the database and Redis,
+    avoiding unnecessary work.
+  </li>
+  <li>
+    <strong>Security basics</strong> – password hashing, safe token handling,
+    and avoidance of obvious vulnerabilities.
+  </li>
+</ul>
+
+<hr />
+
+<h2>5. Project Setup &amp; Deliverables</h2>
+
+<p>Your repository should include at least:</p>
+
+<ol>
+  <li>
+    <strong>Source code</strong> following a Clean Architecture layout.
+  </li>
+  <li>
+    A clear <strong><code>README.md</code></strong> with:
+    <ul>
+      <li>Project overview</li>
+      <li>System requirements (Go version, Docker, etc.)</li>
+      <li>Step-by-step instructions to <strong>start all services</strong>
+        (including PostgreSQL and Redis)</li>
+      <li>Example requests (for example, using <code>curl</code> or an HTTP client)</li>
+      <li>Any design decisions or trade-offs you made</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Configuration files</strong> (for example: <code>.env.example</code>)
+    showing required environment variables.
+  </li>
+  <li>
+    <strong>Bonus:</strong> A <code>docker-compose.yml</code> file (optional).  
+    You may include Docker Compose to help run PostgreSQL, Redis (if used), and your Go service.  
+    This is not required but counted as a bonus.
+  </li>
+</ol>
+
+<p>
+  We should be able to run the entire stack locally with a command similar to:
+</p>
+
+<pre><code>docker compose up --build
+</code></pre>
+
+<p>
+  After the services are running, we should be able to interact with your API using
+  the documented endpoints.
+</p>
+
+<hr />
+
+<h2>6. Bonus: Unit Tests</h2>
+
+<p>
+  Bonus points if you provide <strong>unit tests</strong>, especially around:
+</p>
+
+<ul>
+  <li>Authentication use cases (login, refresh, logout)</li>
+  <li>Token generation and validation logic</li>
+  <li>Business rules in the domain layer</li>
+</ul>
+
+<p>
+  Use any Go testing framework you prefer (<code>testing</code>, <code>testify</code>, etc.).
+  Make sure your README includes instructions for running tests
+  (for example: <code>go test ./...</code>).
+</p>
+
+<hr />
+
+<h2>7. Submission Guidelines</h2>
+
+<ul>
+  <li>
+    Host your solution in a Git repository (GitHub, GitLab, or similar).
+  </li>
+  <li>
+    Ensure the repository is accessible to our team.
+  </li>
+  <li>
+    Include all required instructions in <code>README.md</code> so we can:
+    <ul>
+      <li>Build and run the service</li>
+      <li>Understand your architecture and design decisions</li>
+    </ul>
+  </li>
+</ul>
+
+<p>
+  Please follow the submission channel or instructions provided by the recruiter or job posting.
+</p>
+
+<hr />
+
+<h2>About us</h2>
+
+<p>
+  FlowFusion Technology operates with a clear objective: to establish an infrastructure that
+  propels national businesses into the global landscape through innovation. The company
+  facilitated government efforts, generating over <strong>USD 45 million via e-Commerce</strong>,
+  and has now secured partnerships across the entire value chain.
+</p>
+
+<p>
+  For more information, visit:
+  <a href="https://www.flowfusion.asia/" target="_blank" rel="noopener noreferrer">
+    www.flowfusion.asia
+  </a>
+</p>
+
+<hr />
+
+</div>
+<p>© FlowFusion Technology — All Rights Reserved</p>

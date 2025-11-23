@@ -1,0 +1,231 @@
+---
+layout: default
+title: FLOWFUSION TECHNOLOGY – Back-End Code Challenge
+description: Leading Technology Solutions for Modern Businesses
+---
+
+<div class="markdown-body">
+
+<p align="center">
+  <img src="./flowfusiontech_cover.jpeg" alt="FlowFusion Logo" style="max-width: 100%; height: auto;" />
+</p>
+
+<h1>FLOWFUSION TECHNOLOGY – Full-Stack Code Challenge</h1>
+
+<hr />
+
+<p>
+  This page outlines the full‑stack coding assignment for candidates applying for the role of
+  <strong>Full‑Stack Engineer</strong> at <strong>FlowFusion Technology</strong>.
+</p>
+
+<p>
+  The challenge requires you to build both a back‑end API service and a front‑end web application,
+  following engineering best practices and ensuring proper end‑to‑end integration between both systems.
+</p>
+
+<blockquote>
+  <strong>Goal:</strong>
+  Build a full authentication system consisting of:
+  <ul>
+    <li>A back‑end authentication API (Golang + Fiber + PostgreSQL)</li>
+    <li>A front‑end web interface (React or Next.js)</li>
+    <li>Both must integrate seamlessly via API communication</li>
+  </ul>
+</blockquote>
+
+<hr />
+
+<h2>1. Problem Overview</h2>
+
+<p>
+  You must implement a fully functional authentication flow where the front‑end interacts directly
+  with your back‑end API. The system should include login, registration, protected routes, and logout.
+</p>
+
+<h3>1.1 Features Required</h3>
+
+<ul>
+  <li>User registration</li>
+  <li>User login</li>
+  <li>JWT Access Token + Refresh Token flow</li>
+  <li>Protected user info endpoint (<code>/me</code>)</li>
+  <li>Front‑end UI pages (login, register, dashboard)</li>
+  <li>Logout behavior on front‑end</li>
+  <li>Front‑end must call your implemented back‑end API directly</li>
+</ul>
+
+<hr />
+
+<h2>2. Functional Requirements</h2>
+
+<h3>2.1 Back-End Requirements</h3>
+
+<p>The back-end must be implemented using:</p>
+
+<ul>
+  <li><strong>Language:</strong> Go (Golang)</li>
+  <li><strong>Framework:</strong> Fiber</li>
+  <li><strong>Database:</strong> PostgreSQL with GORM</li>
+  <li><strong>Authentication:</strong> JWT (access + refresh token)</li>
+  <li><strong>Architecture:</strong> Clean Architecture</li>
+</ul>
+
+<p>Required API Endpoints:</p>
+
+<ol>
+  <li><code>POST /auth/register</code> – register a new user</li>
+  <li><code>POST /auth/login</code> – login and receive tokens</li>
+  <li><code>POST /auth/refresh</code> – refresh tokens</li>
+  <li><code>POST /auth/logout</code> – clear tokens / invalidate session</li>
+  <li><code>GET /me</code> – get current user info (protected)</li>
+</ol>
+
+<hr />
+
+<h3>2.2 Front-End Requirements</h3>
+
+<p>The front-end must be built using:</p>
+
+<ul>
+  <li><strong>React</strong> (Vite or CRA) or <strong>Next.js</strong></li>
+</ul>
+
+<p>Minimum UI Requirements:</p>
+
+<ul>
+  <li>Login page</li>
+  <li>Register page</li>
+  <li>Dashboard / profile page (protected)</li>
+  <li>Logout feature</li>
+  <li>Client-side state for authentication (localStorage, sessionStorage, or cookies)</li>
+</ul>
+
+<p>
+  The UI must call your back‑end API for all authentication actions.
+  No mock API is allowed for this challenge.
+</p>
+
+<hr />
+
+<h2>3. Technical Requirements</h2>
+
+<h3>3.1 Integration Requirements</h3>
+
+<p>
+  The front‑end must successfully connect to the back‑end API.  
+  At minimum:
+</p>
+
+<ul>
+  <li>Front‑end <code>/login</code> → calls <code>POST /auth/login</code></li>
+  <li>Front‑end <code>/register</code> → calls <code>POST /auth/register</code></li>
+  <li>Front‑end protected page → calls <code>GET /me</code></li>
+  <li>Front‑end logout → clears tokens + optionally calls <code>/auth/logout</code></li>
+</ul>
+
+<p>
+  CORS must be configured correctly so the front‑end can communicate with the API from a different port.
+</p>
+
+<h3>3.2 Back-End Architecture</h3>
+
+<ul>
+  <li>Use clean separation of layers: Domain, Use‑Case, Interface, Infrastructure</li>
+  <li>No framework‑specific types or logic inside domain or use‑case layers</li>
+  <li>Use environment variables for DB + JWT secrets</li>
+</ul>
+
+<h3>3.3 Front-End Architecture</h3>
+
+<ul>
+  <li>Use reusable components</li>
+  <li>Folder structure should be clean and scalable</li>
+  <li>Validation for input fields</li>
+  <li>Handle error messages (invalid login, existing email, etc.)</li>
+</ul>
+
+<h3>3.4 Bonus Options (Optional)</h3>
+
+<ul>
+  <li>Redis for token/session management</li>
+  <li>Docker Compose to start both front‑end and back‑end</li>
+  <li>Cypress E2E tests</li>
+</ul>
+
+<hr />
+
+<h2>4. Non-Functional Requirements</h2>
+
+<p>We will evaluate based on:</p>
+
+<ul>
+  <li><strong>Code readability</strong></li>
+  <li><strong>Simplicity</strong></li>
+  <li><strong>Security awareness</strong></li>
+  <li><strong>Performance considerations</strong></li>
+  <li><strong>Front-end UX quality</strong></li>
+</ul>
+
+<hr />
+
+<h2>5. Project Setup & Deliverables</h2>
+
+<p>Your repository must include:</p>
+
+<ol>
+  <li>Back‑end source code (clean architecture)</li>
+  <li>Front‑end source code (React or Next.js)</li>
+  <li><strong>Both must run and connect together</strong></li>
+  <li>A complete <code>README.md</code> including:
+    <ul>
+      <li>Setup instructions for back‑end</li>
+      <li>Setup instructions for front‑end</li>
+      <li>Environment variables required</li>
+      <li>API usage examples</li>
+      <li>How the front‑end communicates with the back‑end</li>
+    </ul>
+  </li>
+  <li>Optional: Docker Compose file</li>
+</ol>
+
+<hr />
+
+<h2>6. Bonus: Tests</h2>
+
+<p>Optional test additions:</p>
+
+<ul>
+  <li>Back‑end unit tests</li>
+  <li>Front‑end E2E tests via Cypress</li>
+</ul>
+
+<hr />
+
+<h2>7. Submission Guidelines</h2>
+
+<ul>
+  <li>Provide your GitHub/GitLab repository link</li>
+  <li>Ensure both apps run without errors</li>
+  <li>Ensure back‑end API is reachable by the front‑end</li>
+</ul>
+
+<hr />
+
+<h2>About us</h2>
+
+<p>
+  FlowFusion Technology operates with a clear objective: to establish an infrastructure that
+  propels national businesses into the global landscape through innovation.
+  The company supported government initiatives generating over <strong>USD 45 million via e‑Commerce</strong>,
+  and now partners across the entire value chain.
+</p>
+
+<p>
+  More info: <a href="https://www.flowfusion.asia/" target="_blank">www.flowfusion.asia</a>
+</p>
+
+<hr />
+
+</div>
+<p>© FlowFusion Technology — All Rights Reserved</p>
