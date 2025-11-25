@@ -28,13 +28,13 @@ Candidates who pass the initial screening will proceed to a final discussion wit
 
 If you are applying for a Software Engineering position, please complete the appropriate assignment and submit it via the designated form.
 
-- <a href="https://flowfusion-technology-test.github.io/test-frontend.html" target="_blank" rel="noopener noreferrer">**Front-End Engineer**</a><br>
+- <a href="https://flowfusion-technology-test.github.io/test-frontend" target="_blank" rel="noopener noreferrer">**Front-End Engineer**</a><br>
   Choose one assignment related to frontend development.
 
-- <a href="https://flowfusion-technology-test.github.io/test-backend.html" target="_blank" rel="noopener noreferrer">**Back-End Engineer**</a><br>
+- <a href="https://flowfusion-technology-test.github.io/test-backend" target="_blank" rel="noopener noreferrer">**Back-End Engineer**</a><br>
   Choose one backend assignment and review the provided material regarding event-driven systems.
 
-- <a href="https://flowfusion-technology-test.github.io/test-fullstack.html" target="_blank" rel="noopener noreferrer">**Full Stack Engineer**</a><br>
+- <a href="https://flowfusion-technology-test.github.io/test-fullstack" target="_blank" rel="noopener noreferrer">**Full Stack Engineer**</a><br>
   Complete one assignment from both the Front-End and Back-End sections, and study the concepts provided in the reference link.
 
 ---
