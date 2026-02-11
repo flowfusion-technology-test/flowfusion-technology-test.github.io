@@ -37,6 +37,9 @@ If you are applying for a Software Engineering position, please complete the app
 - <a href="https://flowfusion-technology-test.github.io/test-fullstack" target="_blank" rel="noopener noreferrer">**Full Stack Engineer**</a><br>
   Complete one assignment from both the Front-End and Back-End sections, and study the concepts provided in the reference link.
 
+- <a href="https://flowfusion-technology-test.github.io/test-senior-software-engineer" target="_blank" rel="noopener noreferrer">**Senior Software Engineer**</a><br>
+  Choose one senior assignment and review the provided material regarding event-driven systems.
+
 ---
 
 ## About us

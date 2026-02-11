@@ -1,0 +1,312 @@
+---
+layout: default
+title: FLOWFUSION TECHNOLOGY – Senior Software Engineer Code Challenge
+description: Campaign Enrollment Workflow – Backend Service Challenge
+---
+
+<div class="markdown-body">
+
+<p align="center">
+  <img src="./flowfusiontech_cover.jpeg" alt="FlowFusion Logo" style="max-width: 100%; height: auto;" />
+</p>
+
+<h1>FLOWFUSION TECHNOLOGY – Senior Software Engineer Code Challenge</h1>
+
+<hr />
+
+<p>
+  This page describes the coding assignment for candidates applying as
+  <strong>Senior Software Engineer</strong> at
+  <strong>FlowFusion Technology</strong>.
+</p>
+
+<p>
+  Please read all requirements carefully and implement the assignment as if it were a real production service.
+</p>
+
+<blockquote>
+  <strong>Goal:</strong>
+  Build a backend service that manages the application process between Suppliers and Campaign Managers.
+  The goal is to demonstrate a solid understanding of <strong>relational data modeling</strong> and
+  <strong>RESTful API design</strong>.
+</blockquote>
+
+<hr />
+
+<h2>1. Problem Overview</h2>
+
+<p>
+  You will design and implement a backend service that handles:
+</p>
+
+<ul>
+  <li><strong>Campaign Discovery</strong> – Suppliers can view available campaigns.</li>
+  <li><strong>Application Submission</strong> – Suppliers apply to campaigns only during active registration periods.</li>
+  <li><strong>Review Process</strong> – Campaign Managers can view pending applications and Approve or Reject them.</li>
+  <li><strong>Resubmission (Bonus)</strong> – Rejected applications can be edited and resubmitted while the registration period is still open.</li>
+</ul>
+
+<p>
+  Use any <strong>SQL-based database</strong> and your preferred backend framework (e.g. Node/Express, Python/FastAPI, Go, etc.).
+  Focus on clean schema design, clear API contracts, and proper state handling.
+</p>
+
+<hr />
+
+<h2>2. Functional Requirements</h2>
+
+<h3>2.1 Campaign Discovery</h3>
+<p>
+  Suppliers should be able to <strong>view available campaigns</strong> (e.g. list campaigns with active registration windows).
+</p>
+
+<h3>2.2 Application Submission</h3>
+<p>
+  Suppliers can <strong>apply to a campaign only during its active <code>registration_period</code></strong>.
+  The server must validate that the submission falls within this window.
+</p>
+
+<h3>2.3 Review Process</h3>
+<p>
+  Campaign Managers can <strong>view pending applications</strong> and either <strong>Approve</strong> or <strong>Reject</strong> them.
+</p>
+
+<h3>2.4 Resubmission (Bonus)</h3>
+<p>
+  If an application is rejected, the Supplier should be able to <strong>edit and resubmit</strong>,
+  provided the campaign’s registration period is still open.
+</p>
+
+<hr />
+
+<h2>3. Database Schema Design</h2>
+
+<p>
+  Design a schema that tracks the lifecycle of an application while maintaining clear relationships.
+</p>
+
+<h3>Suggested Tables</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Table</th>
+      <th>Key Fields</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Users</strong></td>
+      <td><code>id</code>, <code>role</code> (Supplier/Manager), <code>name</code></td>
+      <td>System participants.</td>
+    </tr>
+    <tr>
+      <td><strong>Campaigns</strong></td>
+      <td><code>id</code>, <code>title</code>, <code>start_date</code>, <code>end_date</code></td>
+      <td>The "host" entities for applications.</td>
+    </tr>
+    <tr>
+      <td><strong>Applications</strong></td>
+      <td><code>id</code>, <code>campaign_id</code>, <code>supplier_id</code>, <code>status</code>, <code>content</code></td>
+      <td>Tracks the state (Pending, Approved, Rejected).</td>
+    </tr>
+    <tr>
+      <td><strong>Audit_Log</strong></td>
+      <td><code>id</code>, <code>application_id</code>, <code>action</code>, <code>timestamp</code></td>
+      <td>(Recommended) Tracks status changes for debugging.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  You may extend these tables (e.g. registration_period fields on Campaigns, feedback on Applications)
+  as long as the relationships and lifecycle are clear.
+</p>
+
+<hr />
+
+<h2>4. API Specification</h2>
+
+<p>
+  Implement the following endpoints. Request/response formats can be adapted to your framework,
+  but the behavior and semantics should match.
+</p>
+
+<h3>4.1 Supplier Endpoints</h3>
+
+<ol>
+  <li>
+    <p><strong>List campaigns</strong><br />
+      <code>GET /campaigns</code><br />
+      List all campaigns with active registration windows (or all campaigns with filter options).
+    </p>
+  </li>
+  <li>
+    <p><strong>Submit application</strong><br />
+      <code>POST /applications</code><br />
+      Submit a new application.<br />
+      <strong>Validation:</strong> Ensure the supplier has not already applied to the same campaign
+      (unless resubmitting a rejected application—see your resubmission strategy).
+    </p>
+  </li>
+  <li>
+    <p><strong>Update / Resubmit application</strong><br />
+      <code>PUT /applications/{id}</code><br />
+      Update or resubmit a <strong>rejected</strong> application. Only allowed when the campaign’s
+      registration period is still open.
+    </p>
+  </li>
+</ol>
+
+<h3>4.2 Manager Endpoints</h3>
+
+<ol>
+  <li>
+    <p><strong>List applications</strong><br />
+      <code>GET /manager/applications</code><br />
+      List applications filtered by status (e.g. <code>?status=pending</code>).
+    </p>
+  </li>
+  <li>
+    <p><strong>Change application status</strong><br />
+      <code>PATCH /applications/{id}/status</code><br />
+      Transition the application state.<br />
+      Payload: <code>{ "status": "approved" | "rejected", "feedback": "Optional text" }</code>
+    </p>
+  </li>
+</ol>
+
+<hr />
+
+<h2>5. Candidate Instructions</h2>
+
+<h3>5.1 Your Task</h3>
+
+<ul>
+  <li>
+    <strong>Implement the database schema</strong> using any SQL-based dialect (PostgreSQL, MySQL, SQLite, etc.).
+  </li>
+  <li>
+    <strong>Develop the API logic</strong> using your preferred backend framework (Node/Express, Python/FastAPI, Go, etc.).
+  </li>
+  <li>
+    <strong>State machine logic:</strong> Ensure an application cannot move from <strong>Approved</strong> back to
+    <strong>Pending</strong> without specific triggers (define and document your rules).
+  </li>
+</ul>
+
+<h3>5.2 Constraints</h3>
+
+<ul>
+  <li>Suppliers <strong>cannot approve their own applications</strong> (enforce role checks).</li>
+  <li>Applications submitted after the campaign’s <code>end_date</code> (or after registration period end)
+    must be <strong>blocked by the server</strong> (e.g. 400 Bad Request with a clear message).</li>
+</ul>
+
+<h3>5.3 Resubmission Strategy</h3>
+
+<p>
+  Decide and document how resubmission works:
+</p>
+
+<ul>
+  <li>Does it <strong>overwrite</strong> the existing application record (same <code>id</code>, updated content/status)?</li>
+  <li>Or do you maintain <strong>version history</strong> (e.g. new row or version table)?</li>
+</ul>
+
+<p>
+  Either approach is acceptable; consistency and clarity in your README will be evaluated.
+</p>
+
+<hr />
+
+<h2>6. Evaluation Criteria</h2>
+
+<ul>
+  <li>
+    <strong>Clean code</strong> – Modularized logic, proper error handling (e.g. 400 Bad Request for expired deadlines,
+    403 for unauthorized actions).
+  </li>
+  <li>
+    <strong>Consistency</strong> – How you handle resubmission (overwrite vs version history) and that it is
+    clearly documented.
+  </li>
+  <li>
+    <strong>Security</strong> – Basic <strong>role-based access control (RBAC)</strong> simulation
+    (Suppliers vs Managers; no self-approval).
+  </li>
+  <li>
+    <strong>Data model</strong> – Sensible tables, keys, and relationships; optional use of Audit_Log
+    for traceability.
+  </li>
+</ul>
+
+<hr />
+
+<h2>7. Project Setup &amp; Deliverables</h2>
+
+<p>Your repository should include at least:</p>
+
+<ol>
+  <li>
+    <strong>Source code</strong> – Schema (migrations or SQL scripts) and API implementation.
+  </li>
+  <li>
+    A clear <strong><code>README.md</code></strong> with:
+    <ul>
+      <li>Project overview and how to run the service</li>
+      <li>Database setup (e.g. create DB, run migrations)</li>
+      <li>Example API requests (e.g. <code>curl</code> or Postman examples)</li>
+      <li>Resubmission strategy and state machine rules</li>
+      <li>Any design decisions or trade-offs</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Configuration</strong> – e.g. <code>.env.example</code> for database URL and any secrets.
+  </li>
+  <li>
+    <strong>Bonus:</strong> <code>docker-compose.yml</code> to run the app and database locally.
+  </li>
+</ol>
+
+<p>
+  We should be able to run the service locally and call the documented endpoints successfully.
+</p>
+
+<hr />
+
+<h2>8. Submission Guidelines</h2>
+
+<ul>
+  <li>Host your solution in a Git repository (GitHub, GitLab, or similar).</li>
+  <li>Ensure the repository is accessible to our team.</li>
+  <li>Include all required instructions in <code>README.md</code> so we can build, run, and understand your design.</li>
+</ul>
+
+<p>
+  Please follow the submission channel or instructions provided by the recruiter or job posting.
+</p>
+
+<hr />
+
+<h2>About us</h2>
+
+<p>
+  FlowFusion Technology operates with a clear objective: to establish an infrastructure that
+  propels national businesses into the global landscape through innovation. The company
+  facilitated government efforts, generating over <strong>USD 45 million via e-Commerce</strong>,
+  and has now secured partnerships across the entire value chain.
+</p>
+
+<p>
+  For more information, visit:
+  <a href="https://www.flowfusion.asia/" target="_blank" rel="noopener noreferrer">
+    www.flowfusion.asia
+  </a>
+</p>
+
+<hr />
+
+</div>
+<p>© FlowFusion Technology — All Rights Reserved</p>
